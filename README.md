@@ -1,6 +1,14 @@
 # Docker Autoscaler
 
-One Paragraph of project description goes here
+Docker stack that allow a docker SysAdmin to automatically trigger a container scale out accordingly to user-defined rules.
+
+This stack is built up by:
+
+* Google's [cAdvisor](https://github.com/google/cadvisor) - for analyzing resource usage and performance statistics of running containers;
+* [Prometheus](https://prometheus.io/) - for obtaining complex metrics based on the cAdvisor performance statistics;
+* Sahajsoft's [docker-swarm-service-autoscaler](https://github.com/sahajsoft/docker-swarm-service-autoscaler) - for defining scale-out triggers based on the Prometheus' metrics.
+
+You can find further information about the background tools [here](docs/background.md).
 
 ## Getting Started
 
@@ -41,9 +49,10 @@ git clone https://github.com/sirnino/autoscaler.git
 
 If you don't have git installed you can download the software from [here](https://github.com/sirnino/autoscaler/archive/master.zip) (note that you won't be able to update the software with the new releases).
 
-## Deployment
+You can find more information on how to use the stack in the [usage documentation page](docs/usage.md).
 
 For production environment be sure to disable the internet access to the Prometheus and cAdvisor web GUI.
+
 
 ## Contributing
 
