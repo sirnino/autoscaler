@@ -1,0 +1,87 @@
+version: "3"
+services:
+
+  autoscaler:
+    image: sahajsoft/docker-swarm-service-autoscaler
+    command: "/etc/docker-swarm-service-autoscaler/autoscaler.yml"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./autoscaler.yml:/etc/docker-swarm-service-autoscaler/autoscaler.yml
+    networks:
+      - default
+      - mynetwork
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+
+  redis:
+    image: redis:latest
+    networks:
+      - default
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+
+  cadvisor:
+    image: google/cadvisor:latest
+    volumes:
+     - /:/rootfs:ro
+     - /var/run:/var/run:ro
+     - /sys:/sys:ro
+     - /var/lib/docker/:/var/lib/docker:ro
+     - /dev/disk/:/dev/disk:ro
+    networks:
+     - default
+     - mynetwork
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090/tcp"
+    networks:
+      - default
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+
+networks:
+  default:
+    driver: overlay
+    driver_opts:
+      com.docker.network.driver.mtu: 1400
+
+  mynetwork:
+    external:
+      name: autoscaler_network

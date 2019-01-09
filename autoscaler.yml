@@ -1,0 +1,15 @@
+poll_interval_seconds: 10
+metric_stores:
+  - name: monitoring
+    type: prometheus
+    prometheus:
+      url: http://prometheus:9090
+autoscale_rules:
+  - service_name: my-docker-service
+    scale_min: 1
+    scale_max: 3
+    scale_step: 1
+    metric_store: monitoring
+    metric_query: avg(rate(container_cpu_usage_seconds_total{container_label_com_docker_swarm_service_name="my-docker-service"}[20s])*100)
+    scale_up_threshold: 20
+    scale_down_threshold: 10
