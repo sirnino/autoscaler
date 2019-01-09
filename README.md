@@ -51,13 +51,13 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/sirnino/autoscaler/tags). 
 
 ## Authors
 
 * **Antonino Sirchia** - *Initial work* - [sirnino](https://github.com/sirnino)
 
-See also the list of [contributors](graphs/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/sirnino/autoscaler/graphs/contributors) who participated in this project.
 
 ## License
 
